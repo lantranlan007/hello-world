@@ -30,16 +30,13 @@ pipeline {
             }
         }
 
-        stage('Run JAR') {
-            steps {
-                bat '''
-                    echo Starting application...
-                    start "" java -jar target\\hello-world.jar
-                    timeout /t 5 /nobreak
-                    echo App started
-                '''
-            }
-        }
+stage('Run JAR') {
+    steps {
+        bat 'for %%f in (target\\*.jar) do start "" java -jar "%%f"'
+        sleep time: 5, unit: 'SECONDS'
+        echo 'App started'
+    }
+}
 
         stage('Check Process') {
             steps {
